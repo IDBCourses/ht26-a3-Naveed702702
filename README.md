@@ -3,30 +3,36 @@
 
 **Play it here:** [Play My Instrument](https://idbcourses.github.io/ht26-a3-Naveed702702/)
 
-**Name:** Naveed Ahmed | **MAU ID:** at2061
+**Name:** Naveed Ahmed  
+**MAU ID:** at2061
 
-This is a pointer-controlled musical instrument made with JavaScript and Tone.js. Moving the pointer horizontally changes the pitch, while movement speed affects how often sounds are triggered. The circle follows the pointer and changes its size and colour as you play.
+This is a pointer-controlled musical instrument made with JavaScript and Tone.js. Moving the pointer changes the pitch and triggers sounds, while a circle follows the pointer and changes its size and colour. The instrument combines sound and visual feedback to make pointer movement interactive.
 
-## How to Play
+## How to play
 
 | When you... | The sound... | The shapes... |
-|---|---|---|
-| Click or tap the page | Starts the instrument and plays a note | The circle responds to your pointer |
-| Move the pointer to the left | Plays lower-pitched notes | The circle follows your pointer |
-| Move the pointer to the right | Plays higher-pitched notes | The circle follows your pointer |
-| Move the pointer slowly | Triggers sounds less frequently | The circle changes size and colour |
-| Move the pointer quickly | Triggers sounds more frequently | The circle responds to the movement |
-| Keep moving the pointer | Pitch follows the horizontal position | The circle continues to follow the pointer |
+| ------------ | ------------ | ------------- |
+| Click or tap anywhere on the page | Activates the audio and plays a C4 note | The circle is ready to respond to pointer movement |
+| Move the pointer horizontally | Changes the pitch according to the horizontal position | The circle follows the pointer and changes colour |
+| Move the pointer vertically | The pitch stays based on the horizontal position | The circle follows the pointer vertically |
+| Move the pointer slowly | Plays sounds when the movement is detected | The circle follows the pointer and changes size slightly |
+| Move the pointer quickly | Can trigger sounds repeatedly as you move | The circle becomes larger as movement speed increases |
+| Move the pointer in circles | The pitch changes as the pointer moves horizontally | The circle follows the movement and changes colour and size |
+| Stop moving the pointer | No new movement-triggered sounds play | The circle stays at its last position |
 
-**Tip:** Click or tap the page first to enable sound. Then move the pointer slowly from left to right and try moving it faster to explore the instrument.
+### Important: Start the Sound
+
+Click anywhere on the page once before playing. Browsers require user interaction before audio can start, so the first click activates Tone.js and plays a C4 note.
+
+After clicking, move your pointer around the page to explore the instrument. Try moving horizontally to change the pitch and moving faster to change the circle's size.
 
 ---
 
-## About This Assignment
+## About this assignment
 
 **A3: Functional Prototype.** An individual assignment. You build a musical instrument with Tone.js, played with the **pointer** (mouse, trackpad, touch or pen), with shapes on the page that respond to how you play. The full brief, the due date and the assessment criteria are on Canvas. The A2 oral exam examines this code, so make sure you understand every part of it.
 
-### The Brief, in Short
+### The brief, in short
 
 - **The pointer shapes the sound.** Use `PointerEvent`s (`pointermove`, `pointerdown`, `pointerup` ...) so the pointer's position and movement continuously change the sound: pitch, volume, a filter, tempo, density ...
 - **Visual elements are required.** Shapes on the page must respond to the pointer's movement over time, not only to where it is right now. A keyboard layer is optional and doesn't replace the visuals.
@@ -42,7 +48,7 @@ Your code must include, at a minimum:
 3. A constant variable
 4. An event handler
 
-### Hand In
+### Hand in
 
 On Canvas:
 
@@ -53,10 +59,10 @@ Having your code on GitHub doesn't count as handing it in. Upload it on Canvas t
 
 ---
 
-## What's in the Template
+## What's in the template
 
 | File | What goes in it |
-|---|---|
+| ------------ | ------------ |
 | `script.js` | All of your code: settings, state, the sound, `update()`, `use()`, the controls and `setup()` |
 | `shape.js` | Ready-made code for shapes on the page. Use `createShape()` and its methods (see below). You don't need to change this file |
 | `index.html` | The page. Loads Tone.js and `script.js` |
@@ -67,19 +73,22 @@ Having your code on GitHub doesn't count as handing it in. Upload it on Canvas t
 - A `PolySynth` connected to the speakers, ready to play.
 - `update()` and `use()`, which each run every 100 milliseconds. Change the state in `update()`, and use it to make sound and move shapes in `use()`.
 - A `note` constant in the settings, and a `pointerDown()` handler that plays it every time you click, tap or touch the page. It also starts Tone.js, because browsers only allow sound after the player has done something.
-- One example shape near the middle of the window. Replace it with your own.
+- A circle created with `createShape("moving-circle")`. It follows the pointer and changes size and colour.
 
-Playing a note on `pointerdown` is only a starting point. Making the pointer's movement over time shape the sound and the shapes is the assignment.
+Playing a note on `pointerdown` is only a starting point. In this instrument, the pointer's horizontal position changes the pitch, movement speed affects the circle's size, and movement triggers sounds while the pointer is moving.
 
-### Run It
+### Run it
 
-1. Open `index.html`, then run **Live Preview: Show Preview (External Browser)** from the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`).
-2. Open the browser's developer tools (`F12`, or `Cmd+Option+I` on a Mac) and click the **Console** tab.
-3. You should see a pink circle in the middle of the page. Click anywhere on the page. You should hear a note, and see `Pointer down at` and the pointer's position in the console.
+1. Open the project folder in VS Code.
+2. Run the page using a local server, such as **Live Server**, or use **Live Preview: Show Preview (External Browser)** from the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`).
+3. Open the browser's developer tools (`F12`, or `Cmd+Option+I` on a Mac) and click the **Console** tab if you want to check for errors.
+4. Click anywhere on the page to activate the sound. Move the pointer to test the sound and circle.
 
-### The Live Page
+Opening `index.html` directly as a local file may not work correctly because the project imports `shape.js` as a JavaScript module. Use a local server when testing on your computer.
 
-Every time something is merged into `main`, GitHub publishes it at the link at the top of this README. It takes a minute or two. To find the link: on github.com, go to **Settings → Pages**. The program has to run without errors there too, not just on your computer.
+### The live page
+
+Every time something is merged into `main`, GitHub publishes it at the link at the top of this README. It can take a minute or two. To find the link: on github.com, go to **Settings → Pages**. The program has to run without errors there too, not just on your computer.
 
 ---
 
@@ -98,7 +107,7 @@ A new shape is a 100 × 100 pink circle (the `.shape` rule in `style.css`), plac
 Makes a new shape, adds it to the page, and returns it.
 
 | Parameter | Default | What it is |
-|---|---|---|
+| ----------- | --------- | ----------- |
 | `id` | `null` | Optional. An id for the element, so you can style it with `#id` in `style.css`. If another element already has that id, `-1`, `-2` ... is added to the end. |
 | `className` | `"shape"` | The CSS class (or several, separated by spaces). If you change it, the shape loses the `.shape` look unless you include `shape`. |
 
@@ -115,7 +124,7 @@ dot.setPosition(0.25, 0.5).setSize(40).setColour(200);
 ```
 
 | Method | What it does |
-|---|---|
+| ---------------------------------------------- | ----------------------------------- |
 | `setPosition(x, y)` | Moves the shape. `x` and `y` go from `0` to `1` across the window: `(0, 0)` is the top-left, `(1, 1)` the bottom-right. |
 | `setPositionPixels(x, y)` | Moves the shape, in pixels from the top-left of the window. Handy with a pointer event's `clientX` and `clientY`. |
 | `setSize(size)` | Makes the shape a square (or circle) `size` pixels across. |
@@ -137,7 +146,7 @@ Good to know:
 You can read these to find out where a shape is and how it looks:
 
 | Property | What it holds |
-|---|---|
+| ------------------------------------------- | ----------------------- |
 | `x`, `y` | Position in pixels |
 | `width`, `height` | Size in pixels |
 | `hue`, `saturation`, `lightness`, `opacity` | The colour |
@@ -159,7 +168,7 @@ A new shape's properties don't come from `style.css`. Until you call a method, t
 
 This is your own repo, so you don't need anyone to review your work. **`main` must always run**, because it's what you hand in and what the live page shows.
 
-For small changes, commit straight to `main`. Commit small and often, with a message that says what changed, and push at least at the end of every session. Your commit history also helps you in the A2 oral exam.
+For small changes, commit straight to `main`. Commit small and often, with a message that says what changed, and push at least at the end of every session. Your commit history also helps in the A2 oral exam.
 
 For a **larger feature**, use a branch:
 
@@ -169,7 +178,7 @@ For a **larger feature**, use a branch:
 4. **Merge it** yourself: **Merge pull request**, then **Delete branch**.
 5. In VS Code, switch back to `main` and click **Sync Changes** (or **Pull**).
 
-### When You Get a Conflict
+### When you get a conflict
 
 A conflict means `main` and your branch changed the same lines, and Git can't tell which version to keep. It's normal, and nothing is lost. You decide.
 
@@ -189,5 +198,6 @@ If you're stuck, stop and ask a TA or teacher. Don't delete the folder and clone
 - [Tone.js documentation](https://tonejs.github.io/docs/15.1.22/)
 - [`PointerEvent` on MDN](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent)
 - [`KeyboardEvent` on MDN](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent)
+
 
 
