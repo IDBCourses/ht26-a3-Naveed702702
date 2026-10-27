@@ -1,74 +1,103 @@
-/*
- * IDB Programming: A3 — a musical instrument
- *
- * All of the code for your instrument goes in this file. It's split into sections:
- *   settings — the "fixed" parts of your program
- *   state    — the parts of your program that change over time
- *   sound    — the Tone.js instruments and effects
- *   update   — updates the state every 100ms, if necessary
- *   use      — uses the state to make sound and shapes every 100ms, if necessary
- *   controls — what happens when the player uses the pointer
- *   setup    — starts everything
- *
- * The pointer events change the state. update() and use() each run every
- * 100ms, in a loop:
- *   1. update: change the state, e.g. based on time or on the pointer's movement
- *   2. use:    make sound and move shapes, based on the state
- *
- * Shapes come from shape.js: createShape() makes one, and its methods
- * (setPosition, setSize, setColour ...) change it.
- *
- * Tone.js documentation: https://tonejs.github.io/docs/15.1.22/
- */
 
 import { createShape } from "./shape.js";
 
-// ---------- Settings ----------
-// Settings variables should contain all of the "fixed" parts of your programs
-// For example: which notes you can play, how fast things move, the tempo.
-const note = "C4"; // the note played when the pointer goes down
+// SETTINGS
+const note = "C4";
+const updateSpeed = 100;
 
-// ---------- State ----------
-// State variables are the parts of your program that change over time.
-// For example: where the pointer is, how fast it's moving, or whether a drone is on.
+// STATE
+const pointer = {
+  x: 0.5,
+  y: 0.5,
+  previousX: 0.5,
+  previousY: 0.5,
+  speed: 0,
+  history: [],
+  isMoving: false,
+};
 
-// ---------- Sound ----------
-// Make the instruments and plug them into the speakers.
-const synth = new Tone.PolySynth(Tone.Synth).toDestination(); // can play several notes at once
+// SOUND
+const synth = new Tone.PolySynth(Tone.Synth).toDestination();
 
-// ---------- Update ----------
-// Update the state. This is called every 100ms.
+// SHAPE
+let circle;
+
+// UPDATE
 function update() {
-  setTimeout(update, 100); // call update() again in 100 milliseconds
+  const dx = pointer.x - pointer.previousX;
+  const dy = pointer.y - pointer.previousY;
+
+  pointer.speed = Math.sqrt(dx * dx + dy * dy);
+  pointer.previousX = pointer.x;
+  pointer.previousY = pointer.y;
+
+  pointer.history.push({
+    x: pointer.x,
+    y: pointer.y,
+    speed: pointer.speed,
+  });
+
+  if (pointer.history.length > 10) {
+    pointer.history.shift();
+  }
+
+  setTimeout(update, updateSpeed);
 }
 
-// ---------- Use ----------
-// Use the state to make sound and move shapes. This is called every 100ms.
+// USE
+
+let lastSoundTime = 0;
+
 function use() {
-  setTimeout(use, 100); // call use() again in 100 milliseconds
+  if (circle) {
+    circle.setPosition(pointer.x, pointer.y);
+
+    const size = 40 + Math.min(pointer.speed * 1500, 100);
+    circle.setSize(size);
+
+    const hue = Math.min(pointer.x * 360, 360);
+    circle.setColour(hue, 100, 50);
+  }
+
+  // Play sound when the pointer is moving
+  const now = Date.now();
+
+  if (pointer.speed > 0.005 && now - lastSoundTime > 250) {
+    const frequency = 220 + pointer.x * 660;
+    const movingNote = Tone.Frequency(frequency).toNote();
+
+    synth.triggerAttackRelease(movingNote, "8n");
+    lastSoundTime = now;
+  }
+
+  setTimeout(use, updateSpeed);
 }
 
-// ---------- Controls (Event Handlers) ----------
-// Runs every time the pointer goes down: a click, a tap or a pen touch.
-function pointerDown(event) {
-  Tone.start(); // browsers only allow sound after the player has pressed something
 
-  console.log("Pointer down at", event.clientX, event.clientY);
-  synth.triggerAttackRelease(note, "8n"); // play the note for an eighth note
+// POINTER EVENT HANDLER
+function pointerMove(event) {
+  pointer.x = event.clientX / window.innerWidth;
+  pointer.y = event.clientY / window.innerHeight;
+  pointer.isMoving = true;
 }
 
-// ---------- Setup ----------
-// Setup is run once, at the start of the program. It sets everything up for us!
+function pointerDown() {
+  Tone.start();
+  synth.triggerAttackRelease(note, "8n");
+}
+
+// SETUP
 function setup() {
-  update(); // start the update loop
-  use(); // start the use loop
+  circle = createShape("moving-circle");
+  circle.setPosition(0.5, 0.5);
+  circle.setSize(60);
+  circle.setRoundedness(1);
 
-  // Example: a shape near the middle of the window. Replace it with your own.
-  const example = createShape("example");
-  example.setPosition(0.5, 0.5);
-
-  // Put your event listener code here
+  window.addEventListener("pointermove", pointerMove);
   window.addEventListener("pointerdown", pointerDown);
+
+  update();
+  use();
 }
 
-setup(); // Always remember to call setup()!
+setup();
