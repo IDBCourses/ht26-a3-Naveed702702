@@ -1,29 +1,32 @@
-# My instrument
 
-**Play it here:** <!-- Paste your GitHub Pages link here, e.g. https://idbcourses.github.io/your-repo-name/ -->
+# My Instrument — Pointer Sound
 
-**Name:** <!-- Your name and MAU ID -->
+**Play it here:** [Play My Instrument](https://idbcourses.github.io/ht26-a3-Naveed702702/)
 
-<!-- One or two sentences: what kind of instrument is it, and what is it like to play? -->
+**Name:** Naveed Ahmed | **MAU ID:** at2061
 
-## How to play
+This is a pointer-controlled musical instrument made with JavaScript and Tone.js. Moving the pointer horizontally changes the pitch, while movement speed affects how often sounds are triggered. The circle follows the pointer and changes its size and colour as you play.
 
-<!-- Fill in the table with a row for everything the player can do with the pointer: clicking, moving slowly or fast, moving in circles, holding still... Say what happens to the sound and to the shapes. If you added keys, give them rows too. -->
+## How to Play
 
-| When you...  | The sound...                         | The shapes... |
-| ------------ | ------------------------------------ | ------------- |
-| Click or tap | Plays a C4 (the example: replace it) | Nothing yet   |
-|              |                                      |               |
+| When you... | The sound... | The shapes... |
+|---|---|---|
+| Click or tap the page | Starts the instrument and plays a note | The circle responds to your pointer |
+| Move the pointer to the left | Plays lower-pitched notes | The circle follows your pointer |
+| Move the pointer to the right | Plays higher-pitched notes | The circle follows your pointer |
+| Move the pointer slowly | Triggers sounds less frequently | The circle changes size and colour |
+| Move the pointer quickly | Triggers sounds more frequently | The circle responds to the movement |
+| Keep moving the pointer | Pitch follows the horizontal position | The circle continues to follow the pointer |
 
-<!-- Anything else a player needs to know: how to get started, a good thing to try first. -->
+**Tip:** Click or tap the page first to enable sound. Then move the pointer slowly from left to right and try moving it faster to explore the instrument.
 
 ---
 
-## About this assignment
+## About This Assignment
 
 **A3: Functional Prototype.** An individual assignment. You build a musical instrument with Tone.js, played with the **pointer** (mouse, trackpad, touch or pen), with shapes on the page that respond to how you play. The full brief, the due date and the assessment criteria are on Canvas. The A2 oral exam examines this code, so make sure you understand every part of it.
 
-### The brief, in short
+### The Brief, in Short
 
 - **The pointer shapes the sound.** Use `PointerEvent`s (`pointermove`, `pointerdown`, `pointerup` ...) so the pointer's position and movement continuously change the sound: pitch, volume, a filter, tempo, density ...
 - **Visual elements are required.** Shapes on the page must respond to the pointer's movement over time, not only to where it is right now. A keyboard layer is optional and doesn't replace the visuals.
@@ -39,7 +42,7 @@ Your code must include, at a minimum:
 3. A constant variable
 4. An event handler
 
-### Hand in
+### Hand In
 
 On Canvas:
 
@@ -50,14 +53,14 @@ Having your code on GitHub doesn't count as handing it in. Upload it on Canvas t
 
 ---
 
-## What's in the template
+## What's in the Template
 
-| File         | What goes in it                                                                                                             |
-| ------------ | --------------------------------------------------------------------------------------------------------------------------- |
-| `script.js`  | All of your code: settings, state, the sound, `update()`, `use()`, the controls and `setup()`                               |
-| `shape.js`   | Ready-made code for shapes on the page. Use `createShape()` and its methods (see below). You don't need to change this file |
-| `index.html` | The page. Loads Tone.js and `script.js`                                                                                     |
-| `style.css`  | How the page and the shapes look                                                                                            |
+| File | What goes in it |
+|---|---|
+| `script.js` | All of your code: settings, state, the sound, `update()`, `use()`, the controls and `setup()` |
+| `shape.js` | Ready-made code for shapes on the page. Use `createShape()` and its methods (see below). You don't need to change this file |
+| `index.html` | The page. Loads Tone.js and `script.js` |
+| `style.css` | How the page and the shapes look |
 
 `script.js` starts with:
 
@@ -68,13 +71,13 @@ Having your code on GitHub doesn't count as handing it in. Upload it on Canvas t
 
 Playing a note on `pointerdown` is only a starting point. Making the pointer's movement over time shape the sound and the shapes is the assignment.
 
-### Run it
+### Run It
 
 1. Open `index.html`, then run **Live Preview: Show Preview (External Browser)** from the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`).
 2. Open the browser's developer tools (`F12`, or `Cmd+Option+I` on a Mac) and click the **Console** tab.
 3. You should see a pink circle in the middle of the page. Click anywhere on the page. You should hear a note, and see `Pointer down at` and the pointer's position in the console.
 
-### The live page
+### The Live Page
 
 Every time something is merged into `main`, GitHub publishes it at the link at the top of this README. It takes a minute or two. To find the link: on github.com, go to **Settings → Pages**. The program has to run without errors there too, not just on your computer.
 
@@ -94,10 +97,10 @@ A new shape is a 100 × 100 pink circle (the `.shape` rule in `style.css`), plac
 
 Makes a new shape, adds it to the page, and returns it.
 
-| Parameter   | Default   | What it is                                                                                                                                                  |
-| ----------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`        | `null`    | Optional. An id for the element, so you can style it with `#id` in `style.css`. If another element already has that id, `-1`, `-2` ... is added to the end. |
-| `className` | `"shape"` | The CSS class (or several, separated by spaces). If you change it, the shape loses the `.shape` look unless you include `shape`.                            |
+| Parameter | Default | What it is |
+|---|---|---|
+| `id` | `null` | Optional. An id for the element, so you can style it with `#id` in `style.css`. If another element already has that id, `-1`, `-2` ... is added to the end. |
+| `className` | `"shape"` | The CSS class (or several, separated by spaces). If you change it, the shape loses the `.shape` look unless you include `shape`. |
 
 ```js
 const dot = createShape("dot");
@@ -111,21 +114,21 @@ Every method changes the shape on the page and stores the new value on the shape
 dot.setPosition(0.25, 0.5).setSize(40).setColour(200);
 ```
 
-| Method                                         | What it does                                                                                                                                                                                   |
-| ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `setPosition(x, y)`                            | Moves the shape. `x` and `y` go from `0` to `1` across the window: `(0, 0)` is the top-left, `(1, 1)` the bottom-right.                                                                        |
-| `setPositionPixels(x, y)`                      | Moves the shape, in pixels from the top-left of the window. Handy with a pointer event's `clientX` and `clientY`.                                                                              |
-| `setSize(size)`                                | Makes the shape a square (or circle) `size` pixels across.                                                                                                                                     |
-| `setSize(width, height)`                       | Sets the width and height separately, in pixels.                                                                                                                                               |
+| Method | What it does |
+|---|---|
+| `setPosition(x, y)` | Moves the shape. `x` and `y` go from `0` to `1` across the window: `(0, 0)` is the top-left, `(1, 1)` the bottom-right. |
+| `setPositionPixels(x, y)` | Moves the shape, in pixels from the top-left of the window. Handy with a pointer event's `clientX` and `clientY`. |
+| `setSize(size)` | Makes the shape a square (or circle) `size` pixels across. |
+| `setSize(width, height)` | Sets the width and height separately, in pixels. |
 | `setColour(hue, saturation, lightness, alpha)` | Sets the colour in HSL. `hue` is 0–360 (0 red, 120 green, 240 blue). `saturation` and `lightness` are percentages, 0–100 (defaults `100` and `50`). `alpha` is the opacity, 0–1 (default `1`). |
-| `setRotation(degrees)`                         | Turns the shape, in degrees.                                                                                                                                                                   |
-| `setRoundedness(amount)`                       | How round the corners are, from `0` (square corners) to `1`. From `0.5` up, a square is a full circle.                                                                                         |
-| `setClass(className)`                          | Replaces the shape's CSS classes. Include `shape` to keep the default look.                                                                                                                    |
-| `setID(id)`                                    | Changes the element's id. As with `createShape()`, a number is added if the id is taken.                                                                                                       |
+| `setRotation(degrees)` | Turns the shape, in degrees. |
+| `setRoundedness(amount)` | How round the corners are, from `0` (square corners) to `1`. From `0.5` up, a square is a full circle. |
+| `setClass(className)` | Replaces the shape's CSS classes. Include `shape` to keep the default look. |
+| `setID(id)` | Changes the element's id. As with `createShape()`, a number is added if the id is taken. |
 
 Good to know:
 
-- The position is the shape's **top-left corner**, not its centre. To centre a shape on a point, subtract half its width and height.
+- The position is the shape's **top-left corner**, not its centre. To centre it on a point, subtract half its width and height.
 - The colour, size, rotation and roundedness set by the methods override what's in `style.css`.
 - To remove a shape from the page: `dot.element.remove()`.
 
@@ -133,14 +136,14 @@ Good to know:
 
 You can read these to find out where a shape is and how it looks:
 
-| Property                                    | What it holds           |
-| ------------------------------------------- | ----------------------- |
-| `x`, `y`                                    | Position in pixels      |
-| `width`, `height`                           | Size in pixels          |
-| `hue`, `saturation`, `lightness`, `opacity` | The colour              |
-| `rotation`                                  | Rotation in degrees     |
-| `roundedness`                               | Roundedness, 0–1        |
-| `element`                                   | The `<div>` on the page |
+| Property | What it holds |
+|---|---|
+| `x`, `y` | Position in pixels |
+| `width`, `height` | Size in pixels |
+| `hue`, `saturation`, `lightness`, `opacity` | The colour |
+| `rotation` | Rotation in degrees |
+| `roundedness` | Roundedness, 0–1 |
+| `element` | The `<div>` on the page |
 
 ```js
 dot.setPositionPixels(dot.x + 5, dot.y); // move 5 pixels to the right
@@ -166,7 +169,7 @@ For a **larger feature**, use a branch:
 4. **Merge it** yourself: **Merge pull request**, then **Delete branch**.
 5. In VS Code, switch back to `main` and click **Sync Changes** (or **Pull**).
 
-### When you get a conflict
+### When You Get a Conflict
 
 A conflict means `main` and your branch changed the same lines, and Git can't tell which version to keep. It's normal, and nothing is lost. You decide.
 
@@ -186,3 +189,5 @@ If you're stuck, stop and ask a TA or teacher. Don't delete the folder and clone
 - [Tone.js documentation](https://tonejs.github.io/docs/15.1.22/)
 - [`PointerEvent` on MDN](https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent)
 - [`KeyboardEvent` on MDN](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent)
+
+
